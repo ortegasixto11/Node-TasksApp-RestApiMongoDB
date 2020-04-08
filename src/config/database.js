@@ -1,13 +1,19 @@
-const db = require("mongoose");
+const database = require("mongoose");
 
-db.Promise = global.Promise;
+database.Promise = global.Promise;
 
 async function connect(url) {
-    await db.connect(url, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    });
-    console.log("[Database] connected!");
+    try {
+        await database.connect(url, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+        console.log("[Database] connected!");
+    } catch (err) {
+        console.log("[Database] couldn't connect with the database!");
+        console.log("[Database] exiting now");
+        process.exit();
+    }
 }
 
 module.exports = connect;
