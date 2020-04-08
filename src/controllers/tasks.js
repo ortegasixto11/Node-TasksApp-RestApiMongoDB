@@ -1,7 +1,15 @@
 const Task = require("../models/task.js");
 
-function list(req, res) {
-    res.send("Hola Sixto");
+async function list(req, res) {
+    try {
+        const result = await Task.find();
+        res.status(200).send(result);
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send({
+            message: "Some error occurred while trying to getting the tasks.",
+        });
+    }
 }
 
 async function create(req, res) {
