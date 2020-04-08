@@ -5,23 +5,21 @@ function list(req, res) {
 }
 
 async function create(req, res) {
-    console.log(req.body);
-    res.send("Post recibido");
+    const task = new Task({
+        name: req.body.name,
+        is_active: true,
+        created_at: Date.now(),
+    });
 
-    // const task = new Task({
-    //     title: req.body.title,
-    //     is_active: true,
-    //     created_at: Date.now,
-    // });
-
-    // try {
-    //     const result = await task.save();
-    //     res.send(result);
-    // } catch (err) {
-    //     res.status(500).send({
-    //         message: err.message || "Some error occurred while retrieving notes.",
-    //     });
-    // }
+    try {
+        const result = await task.save();
+        res.status(200).send(result);
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send({
+            message: "Some error occurred while trying to create the task.",
+        });
+    }
 }
 
 module.exports = {
