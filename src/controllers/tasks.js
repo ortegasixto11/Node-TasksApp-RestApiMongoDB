@@ -37,7 +37,7 @@ async function create(req, res) {
 
     try {
         const result = await task.save();
-        res.status(200).send(result);
+        res.status(200).send({ message: "Task created successfully" });
     } catch (err) {
         console.log(err.message);
         res.status(500).send({
@@ -46,8 +46,28 @@ async function create(req, res) {
     }
 }
 
+async function update(req, res) {
+    try {
+        const task = await Task.findById(req.params.id);
+        if (task === null) {
+            res.status(404).send({ message: "Task does not exists!" });
+        } else {
+            if (req.body.name != null) task.name = req.body.name;
+            if (req.body.is_active != null) task.is_active = req.body.is_active;
+            await Task.updateOne({ _id: req.params.id }, task);
+            res.status(200).send({ message: "Task updated successfully" });
+        }
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send({
+            message: "Some error occurred while trying to update the task.",
+        });
+    }
+}
+
 module.exports = {
     getAll,
     get,
     create,
+    update,
 };
