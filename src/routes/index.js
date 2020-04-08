@@ -5,4 +5,5 @@ module.exports = (app) => {
     app.get("/api/tasks/:id", tasks.get);
     app.post("/api/tasks", tasks.create);
     app.put("/api/tasks/:id", tasks.update);
+    app.delete("/api/tasks/:id", tasks.remove);
 };

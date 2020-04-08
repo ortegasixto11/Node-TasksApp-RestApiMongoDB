@@ -7,7 +7,7 @@ async function getAll(req, res) {
     } catch (err) {
         console.log(err.message);
         res.status(500).send({
-            message: "Some error occurred while trying to getting the tasks.",
+            message: "Some error occurred while trying to get the tasks.",
         });
     }
 }
@@ -23,7 +23,7 @@ async function get(req, res) {
     } catch (err) {
         console.log(err.message);
         res.status(500).send({
-            message: "Some error occurred while trying to getting the task.",
+            message: "Some error occurred while trying to get the task.",
         });
     }
 }
@@ -65,9 +65,27 @@ async function update(req, res) {
     }
 }
 
+async function remove(req, res) {
+    try {
+        const task = await Task.findById(req.params.id);
+        if (task === null) {
+            res.status(404).send({ message: "Task does not exists!" });
+        } else {
+            await Task.deleteOne({ _id: req.params.id });
+            res.status(200).send({ message: "Task removed successfully" });
+        }
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send({
+            message: "Some error occurred while trying to delete the task.",
+        });
+    }
+}
+
 module.exports = {
     getAll,
     get,
     create,
     update,
+    remove,
 };
