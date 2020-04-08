@@ -1,6 +1,6 @@
 const Task = require("../models/task.js");
 
-async function list(req, res) {
+async function getAll(req, res) {
     try {
         const result = await Task.find();
         res.status(200).send(result);
@@ -8,6 +8,22 @@ async function list(req, res) {
         console.log(err.message);
         res.status(500).send({
             message: "Some error occurred while trying to getting the tasks.",
+        });
+    }
+}
+
+async function get(req, res) {
+    try {
+        const result = await Task.findById(req.params.id);
+        if (result === null) {
+            res.status(404).send({ message: "Task does not exists!" });
+        } else {
+            res.status(200).send(result);
+        }
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send({
+            message: "Some error occurred while trying to getting the task.",
         });
     }
 }
@@ -31,6 +47,7 @@ async function create(req, res) {
 }
 
 module.exports = {
-    list,
+    getAll,
+    get,
     create,
 };
