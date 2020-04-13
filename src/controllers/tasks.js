@@ -36,7 +36,7 @@ async function create(req, res) {
     });
 
     try {
-        const result = await task.save();
+        await task.save();
         res.status(200).send({ message: "Task created successfully" });
     } catch (err) {
         console.log(err.message);
