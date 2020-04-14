@@ -15,4 +15,5 @@ module.exports = (app) => {
     app.post("/api/users", users.create);
     app.put("/api/users/:id", users.update);
     app.delete("/api/users/:id", users.remove);
+    app.post("/api/login", users.login);
 };
